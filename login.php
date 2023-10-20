@@ -3,6 +3,13 @@
 include_once("./db/conexao.php");
 // Verificação no banco de dados
 $msg_error = "";
+
+session_start();
+
+if (isset($_SESSION['auth'])) {
+    header('Location: index.php');
+} 
+
 if (isset($_POST["loginUser"]) && isset($_POST["senhaUser"])) {
     // $loginUser = $_POST["loginUser"];
     $loginUser = mysqli_escape_string($conexao, $_POST["loginUser"]);
@@ -13,25 +20,28 @@ if (isset($_POST["loginUser"]) && isset($_POST["senhaUser"])) {
 
     $rs = mysqli_query($conexao, $sql);
 
+    // print_r($hashed_password); 
+    // Gera uma senha de acordo com o texto digitado no campos senhaUser
+
     $dados = mysqli_fetch_assoc($rs);
     $linha = mysqli_num_rows($rs);
 
     if ($linha != 0) {
 
         if (password_verify($senhaUser, $dados['senhaUser'])) {
-            session_start();
             $_SESSION['auth'] = "login";
             $_SESSION["loginUser"] = $loginUser;
             $_SESSION["nomeUser"] = $dados["nomeUser"];
             header("location: index.php");
         } else {
             $msg_error = "<div class='alert alert-danger mt-3'>
-    
-                <p>Usuário não encontrado ou a senha não confere. </p>
-                </div>";
+        
+                    <p>Usuário não encontrado ou a senha não confere. </p>
+                    </div>";
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>

@@ -16,55 +16,21 @@ if (isset($_POST["loginUser"]) && isset($_POST["senhaUser"])) {
     $dados = mysqli_fetch_assoc($rs);
     $linha = mysqli_num_rows($rs);
 
-
-    print_r($rs);
-    echo $hashed_password;
-
     if ($linha != 0) {
 
-        foreach ($dados as $valor) {
-            // if (password_verify($senhaUser, $valor['senhaUser'])) {
-            echo "<prev>";
-            print_r($valor);
-            echo "</prev>";
-            // }
+        if (password_verify($senhaUser, $dados['senhaUser'])) {
+            session_start();
+            $_SESSION['auth'] = "login";
+            $_SESSION["loginUser"] = $loginUser;
+            $_SESSION["nomeUser"] = $dados["nomeUser"];
+            header("location: index.php");
+        } else {
+            $msg_error = "<div class='alert alert-danger mt-3'>
+    
+                <p>Usuário não encontrado ou a senha não confere. </p>
+                </div>";
         }
-        // if (password_verify($senhaUser, $valor['senhaUser'])) {
-        //     session_start();
-        //     $_SESSION['auth'] = "login";
-        //     $_SESSION["loginUser"] = $loginUser;
-        //     $_SESSION["nomeUser"] = $valor["nomeUser"];
-        //     header("location: index.php");
-        //     // session_start();
-        //     // $_SESSION["loginUser"] = $loginUser;
-        //     // $_SESSION["senhaUser"] = $senhaUser;
-        //     // $_SESSION["nomeUser"] = $valor["nomeUser"];
-        //     // header("location: index.php");
-        // } else {
-        //     $msg_error = "<div class='alert alert-danger mt-3'>
-
-        //     <p>Usuário não encontrado ou a senha não confere. </p>
-        //     </div>";
-        // }
     }
-
-    //     $rs = mysqli_query($conexao, $sql);
-    //     $dados = mysqli_fetch_assoc($rs);
-    //     $linha = mysqli_num_rows($rs);
-    //     if ($linha != 0) {
-    //         session_start();
-    //         $_SESSION["loginUser"] = $loginUser;
-    //         $_SESSION["senhaUser"] = $senhaUser;
-    //         $_SESSION["nomeUser"] = $dados["nomeUser"];
-    //         header('Location: login.php');
-    //     } else {
-    //         $msg_error = "<div class='alert alert-danger mt-3'>
-
-    // <p>Usuário não encontrado ou a senha não confere. </p>
-    // </div>
-
-    // ";
-    //     }
 }
 ?>
 

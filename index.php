@@ -69,8 +69,7 @@ if (isset($_GET['menu'])) {
     <header class="sticky-top">
         <nav class="navbar navbar-expand-lg bg-black" data-bs-theme="dark">
             <div class="container-fluid">
-                <a class="navbar-brand" href="index.php">LOCADORA - <?php echo $_SESSION['auth'];
-                                                                    echo " - $loginUser";   ?></a>
+                <a class="navbar-brand" href="index.php">LOCADORA</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
